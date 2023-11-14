@@ -1,50 +1,57 @@
-public class DigitalVideoDisc {
-    // khai bao cac thuoc tinh
-    private String title;
-    private String category;
-    private String director;
-    private int length;
-    private float cost;
-// getter setter
-    public String getTitle() {
-        return title;
-    }
+public class Cart {
+    public static final int MAX_NUMBERS_ORDERED = 20;
+    public DigitalVideoDisc itemsOrdered[] = new DigitalVideoDisc[MAX_NUMBERS_ORDERED];
+    public int qtyOrdered;
 
-    public String getCategory() {
-        return category;
+    public Cart() {
+        this.qtyOrdered = 0;
     }
-
-    public String getDirector() {
-        return director;
+// so sanh qtyOrdered voi so luong order max
+    public void addDigitalVideoDisc(DigitalVideoDisc disc) {
+        if (disc == null)
+            return;
+        if (qtyOrdered == MAX_NUMBERS_ORDERED) {
+            System.out.println("The cart is almost full");
+            return;
+        }
+        itemsOrdered[qtyOrdered] = disc;
+        qtyOrdered++;
+        System.out.println("The disc has been added");
     }
+// ham xoa dia
+    public void removeDigitalVideoDisc(DigitalVideoDisc disc) {
+        if (disc == null)
+            return;
+        if (qtyOrdered == 0) {
+            System.out.println("The cart is  empty");
+            return;
+        }
 
-    public int getLength() {
-        return length;
+        var found = false;
+        for (int i = 0; i < qtyOrdered; ++i) {
+            if (!found && itemsOrdered[i].equals(disc))
+                found = true;
+            if (found && i < qtyOrdered - 1) {
+                itemsOrdered[i] = itemsOrdered[i + 1];// chuyen phan tu lien ke ben phai len them 1 de xoa disc neu disc khong o vi tri cuoi cung+
+            } else if (found) {
+                itemsOrdered[i] = null;// neu o vi tri cuoi cung thi cai ve null
+            }
+        }
+
+        if (!found)
+            System.out.println("The disc was not in the cart");
+        else {
+            System.out.println("The disc has been removed");
+            qtyOrdered--;
+        }
     }
+//ham tinh tong
 
-    public float getCost() {
-        return cost;
+    public float totalCost() {
+        float sum = 0;
+        for (int i = 0; i < qtyOrdered; ++i) {
+            sum += itemsOrdered[i].getCost();
+        }
+        return sum;
     }
-
-    public DigitalVideoDisc(String title) {
-        this.title = title;
-    }
-//khoi tao cac doi tuong dvd
-    public DigitalVideoDisc(String title, String category, float cost) {
-        this(title);
-        this.category = category;
-        this.cost = cost;
-    }
-
-    public DigitalVideoDisc(String title, String category, String director, float cost) {
-        this(title, category, cost);
-        this.director = director;
-    }
-
-    public DigitalVideoDisc(String title, String category, String director, int length, float cost) {
-        this(title, category, director, cost);
-        this.length = length;
-    }
-
-
 }
