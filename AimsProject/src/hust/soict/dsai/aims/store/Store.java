@@ -1,40 +1,43 @@
 package hust.soict.dsai.aims.store;
-import hust.soict.dsai.aims.disc.DigitalVideoDisc;
+import hust.soict.dsai.aims.media.DigitalVideoDisc;
+import hust.soict.dsai.aims.media.Media;
+
+import java.util.ArrayList;
+
 public class Store {
-    private DigitalVideoDisc itemsInStore[] = new DigitalVideoDisc[Max_Items];
-    public static final int Max_Items = 100;
-    private int Count = 0;
-    public void addDVD(DigitalVideoDisc disc) {
-        if (disc == null) return;
-        if (Count == Max_Items) {
-            System.out.println("The store is full");
+    private final ArrayList<Media> items = new ArrayList<Media>();
+
+    public void addMedia(Media media) {
+        if (items.contains(media)) {
+            System.out.println("The item is in the store");
             return;
         }
-        itemsInStore[Count] = disc;
-        Count++;
-        System.out.println("The disc has been added");
+        items.add(media);
+        System.out.println("The item has been added");
     }
-    public void removeDVD(DigitalVideoDisc disc) {
-        if (disc == null) return;
-        if (Count == 0) {
+
+    public void removeMedia(Media media) {
+        if (items.isEmpty()) {
             System.out.println("The store is empty");
             return;
         }
-        var found = false;
-        for (int i = 0; i < Max_Items; ++i) {
-            if (!found && itemsInStore[i] != null && itemsInStore[i].equals(disc)) {
-                found = true;
-            }
-            if (found && i < Max_Items - 1) {
-                itemsInStore[i] = itemsInStore[i + 1];
-            } else if (found) {
-                itemsInStore[i] = null;
-            }
+        if (!items.contains(media)) {
+            System.out.println("The item is not in the store");
+            return;
         }
+        items.remove(media);
+        System.out.println("The item has removed");
+    }
 
-        if (!found) System.out.println("Our store dont have this disc");
-        else { System.out.println("The disc has been removed");
-            Count--;
-        }
+    public void print() {
+        System.out.println("Store:\nID | Title - Category - Extra: Cost");
+        for (Media item: items)
+            System.out.println(item.getId() + " | " + item.toString());
+    }
+
+    public Media searchByTitle(String title) {
+        for (Media item: items)
+            if (item.matchTitle(title)) return item;
+        return null;
     }
 }
