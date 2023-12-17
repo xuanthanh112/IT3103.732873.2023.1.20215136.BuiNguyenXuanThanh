@@ -19,11 +19,12 @@ public class Track implements Playable{
     @Override
     public boolean equals(Object obj) {
         Track track = (Track)obj;
-        return title == track.title && length == track.length;
+        return title.equals(track.title) && length == track.length;
     }
 
-    public void play() {
+    public String play() {
         System.out.println("Play track: " + title);
         System.out.println("Track length: " + length);
+        return null;
     }
 }

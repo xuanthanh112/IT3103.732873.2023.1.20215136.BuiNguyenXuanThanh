@@ -11,6 +11,14 @@ public abstract class Disc extends Media implements Playable{
         this.length = length;
     }
 
+    public Disc(String title, String category, float cost) {
+        super(title, category, cost);
+    }
+
+    public Disc(String title) {
+        super(title);
+    }
+
     public String getDirector() {
         return director;
     }

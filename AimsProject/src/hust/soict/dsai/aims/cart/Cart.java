@@ -1,14 +1,18 @@
 package hust.soict.dsai.aims.cart;
-import hust.soict.dsai.aims.media.DigitalVideoDisc;
 import hust.soict.dsai.aims.media.Media;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class Cart {
     public static final int MAX_NUMBERS_ORDERED = 20;
-    private ArrayList<Media> itemsOrdered = new ArrayList<Media>();
-
+    private ObservableList<Media> itemsOrdered = FXCollections.observableArrayList();
+    public ObservableList<Media> getItemsOrdered() {
+        return itemsOrdered;
+    }
     public void addMedia(Media media) {
         if (itemsOrdered.size() == MAX_NUMBERS_ORDERED) {
             System.out.println("The cart is almost full");
@@ -67,6 +71,16 @@ public class Cart {
         for (Media item: itemsOrdered)
             if (item.matchTitle(title)) return item;
         return null;
+    }
+    public FilteredList<Media> filterId(String id) {
+        var filtered = new FilteredList<>(itemsOrdered);
+        filtered.setPredicate(media -> false);
+        return filtered;
+    }
+    public FilteredList<Media> filterTitle(String titlePart) {
+        var filtered = new FilteredList<>(itemsOrdered);
+        filtered.setPredicate(media -> media.getTitle().contains(titlePart));
+        return filtered;
     }
 
     public void placeOrder() {

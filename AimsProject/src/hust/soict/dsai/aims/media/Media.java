@@ -20,7 +20,11 @@ public abstract class Media {
         this.category = category;
         this.cost = cost;
     }
-//get methods
+
+    public Media(String title) {
+    }
+
+    //get methods
     public int getId() {
         return id;
     }

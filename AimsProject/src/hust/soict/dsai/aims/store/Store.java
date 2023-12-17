@@ -1,11 +1,14 @@
 package hust.soict.dsai.aims.store;
-import hust.soict.dsai.aims.media.DigitalVideoDisc;
 import hust.soict.dsai.aims.media.Media;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Store {
-    private final ArrayList<Media> items = new ArrayList<Media>();
+    private final ArrayList<Media> items = new ArrayList<>();
+    public List<Media> getItemsInStore(){
+        return items;
+    }
 
     public void addMedia(Media media) {
         if (items.contains(media)) {

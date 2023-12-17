@@ -1,12 +1,15 @@
 package hust.soict.dsai.aims.media;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class Book extends  Media{
 
-    private ArrayList<String> authors = new ArrayList<String>();
+    private ArrayList<String> authors = new ArrayList<>();
     public Book(String title, String category, float cost) {super(title, category, cost);
+    }
+    public Book(String title){
+        super(title);
     }
     public boolean isAuthor(String authorName) {
         return authors.contains(authorName);
