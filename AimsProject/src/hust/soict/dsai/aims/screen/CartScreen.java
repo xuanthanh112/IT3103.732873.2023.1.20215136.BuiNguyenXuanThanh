@@ -20,48 +20,51 @@ public class CartScreen extends JFrame {
         super();
         this.cart = cart;
 
-        var panel = new JFXPanel();
-        add(panel);
+        JFXPanel fxPanel = new JFXPanel();
+        this.add(fxPanel);
 
-        setTitle("Cart");
-        setVisible(true);
+        this.setTitle("Cart");
+        this.setVisible(true);
+        this.setSize(1024, 768);
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 try {
-                    var loader = new FXMLLoader(
-                            getClass().getResource("cart.fxml"));
-                    loader.setController(new CartScreenController(cart));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("cart.fxml"));
+                    CartScreenController controller = new CartScreenController(cart);
+                    loader.setController(controller);
                     Parent root = loader.load();
-                    panel.setScene(new Scene(root));
+                    fxPanel.setScene(new Scene(root));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         });
     }
+
+
     public static void main(String[] args) {
-        Store store = new Store();
+
         Cart cart = new Cart();
 
 
-        store.addMedia(new CompactDisc("a", "b", "c", 2,2, "fd"));
+        cart.addMedia(new CompactDisc("a", "b", "c", 2,2, "fd"));
 
-        store.addMedia(new DigitalVideoDisc(" Say Goodbye", "Nhac tru tinh", " Pham Viet Thang", 10, 100.0f));
+        cart.addMedia(new DigitalVideoDisc(" Say Goodbye", "Nhac tru tinh", " Pham Viet Thang", 10, 100.0f));
 
         Book book1 = new Book("DevUp", "Soft Skill", 10.4f);
-        store.addMedia(book1);
+        cart.addMedia(book1);
         Book book2 = new Book("asdfdf", "Soft Skill", 10.4f);
-        store.addMedia(book2);
+        cart.addMedia(book2);
         Book book3 = new Book("asd", "Soft Skill", 10.4f);
-        store.addMedia(book3);
+        cart.addMedia(book3);
         Book book4 = new Book("asdasf", "Soft Skill", 10.4f);
-        store.addMedia(book4);
+        cart.addMedia(book4);
         Book book6 = new Book("dgdfgdf", "Soft Skill", 10.4f);
-        store.addMedia(book6);
+        cart.addMedia(book6);
         Book book7 = new Book("sfwae", "Soft Skill", 10.4f);
-        store.addMedia(book7);
-        new StoreScreen(store, cart);
+        cart.addMedia(book7);
+        new CartScreen( cart);
     }
 
 }

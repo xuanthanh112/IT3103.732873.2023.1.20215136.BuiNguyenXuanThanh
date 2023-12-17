@@ -9,6 +9,8 @@ import hust.soict.dsai.aims.store.Store;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,7 @@ public class StoreScreen extends JFrame {
         setVisible(true);
         setTitle("Store");
         setSize(1024, 768);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Để khi đóng cửa sổ, chương trình sẽ kết thúc
     }
     JPanel createNorth() {
         JPanel north = new JPanel();
@@ -38,12 +41,40 @@ public class StoreScreen extends JFrame {
         return north;
     }
     JMenuBar createMenuBar() {
-        JMenu smUpdateStore = new JMenu("Update store");
-        smUpdateStore.add(new JMenuItem("Add book"));
-        smUpdateStore.add(new JMenuItem("Add CD"));
-        smUpdateStore.add(new JMenuItem("Add DVD"));
-
         JMenu menu = new JMenu("Options");
+
+        JMenu smUpdateStore = new JMenu("Update Store");
+
+        JMenuItem addBookBtn = new JMenuItem("Add Book");
+        smUpdateStore.add(addBookBtn);
+        addBookBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new AddBook(store, cart);
+            }
+        });
+
+        JMenuItem addCDBtn = new JMenuItem("Add CD");
+        smUpdateStore.add(addCDBtn);
+        addCDBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new AddCompactDisc(store, cart);
+            }
+        });
+
+        JMenuItem addDVDBtn = new JMenuItem("Add DVD");
+        smUpdateStore.add(addDVDBtn);
+        addDVDBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new AddDigitalVideoDisc(store, cart);
+            }
+        });
+
         menu.add(smUpdateStore);
         menu.add(new JMenuItem("View store"));
         menu.add(new JMenuItem("View cart"));
@@ -54,49 +85,47 @@ public class StoreScreen extends JFrame {
 
         return menuBar;
     }
+
     JPanel createHeader() {
+        JPanel header = new JPanel();
+        header.setLayout(new BoxLayout(header, BoxLayout.X_AXIS));
+
         JLabel title = new JLabel("AIMS");
         title.setFont(new Font(title.getFont().getName(), Font.PLAIN, 50));
         title.setForeground(Color.CYAN);
 
-        JButton cart = new JButton("View cart");
-        cart.setPreferredSize(new Dimension(100, 50));
-        cart.setMaximumSize(new Dimension(100, 50));
+        JButton cartBtn = new JButton("View cart");
+        cartBtn.setPreferredSize(new Dimension(100, 50));
+        cartBtn.setMaximumSize(new Dimension(100, 50));
+        cartBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new CartScreen(cart);
+            }
+        });
 
-        JPanel header = new JPanel();
-        header.setLayout(new BoxLayout(header, BoxLayout.X_AXIS));
         header.add(Box.createRigidArea(new Dimension(10, 10)));
         header.add(title);
         header.add(Box.createHorizontalGlue());
-        header.add(cart);
+        header.add(cartBtn);
         header.add(Box.createRigidArea(new Dimension(10, 10)));
 
         return header;
     }
+
     JPanel createCenter() {
         JPanel center = new JPanel();
-        center.setLayout(new GridLayout(3, 3, 2, 2));
+        center.setLayout(new GridLayout(3, 3, 2, 1));
 
-        ArrayList<Media> mediaInStore = (ArrayList<Media>) store.getItemsInStore();
-        for (int i = 0; i < store.getItemsInStore().size(); i++) {
-            MediaStore cell = new MediaStore(mediaInStore.get(i), cart);
+        // Sử dụng forEach loop thay vì for loop
+        for (Media media : store.getItemsInStore()) {
+            MediaStore cell = new MediaStore(media, cart);
             center.add(cell);
         }
+
         return center;
     }
-    public StoreScreen(Store store) {
-        this.store = store;
 
-        Container cp = getContentPane();
-        cp.setLayout(new BorderLayout());
-
-        cp.add(createNorth(), BorderLayout.NORTH);
-        cp.add(createCenter(), BorderLayout.CENTER);
-
-        setVisible(true);
-        setTitle("Store");
-        setSize(1024, 768);
-    }
     public static void main(String[] args) {
         Store store = new Store();
         Cart cart = new Cart();

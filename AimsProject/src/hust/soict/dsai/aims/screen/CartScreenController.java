@@ -4,11 +4,14 @@ import hust.soict.dsai.aims.cart.Cart;
 import hust.soict.dsai.aims.exception.PlayerException;
 import hust.soict.dsai.aims.media.DigitalVideoDisc;
 import hust.soict.dsai.aims.media.Media;
+import hust.soict.dsai.aims.media.Playable;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
+import javafx.beans.value.ChangeListener;
 
 public class CartScreenController {
     private Cart cart;
@@ -32,49 +35,56 @@ public class CartScreenController {
         colMediaTitle.setCellValueFactory(new PropertyValueFactory<Media, String>("title"));
         colMediaCategory.setCellValueFactory(new PropertyValueFactory<Media, String>("category"));
         colMediaCost.setCellValueFactory(new PropertyValueFactory<Media, Float>("cost"));
-        tblMedia.setItems(cart.getItemsOrdered());
+        tblMedia.setItems(this.cart.getItemsOrdered());
         totalCost.setText(String.format("%.2f", cart.totalCost()) + " $");
         btnPlay.setVisible(false);
         btnRemove.setVisible(false);
-        tblMedia.getSelectionModel().selectedItemProperty().addListener(observable -> {
-            var selected = tblMedia.getSelectionModel().getSelectedItem();
-            if (selected == null) return;
-            btnRemove.setVisible(true);
-            btnPlay.setVisible(selected.isPlayable());
-        });
 
-        tfFilter.textProperty().addListener(observable -> { onFilterChange(); });
-        filterCategory.selectedToggleProperty().addListener((obserble, oldValue, newValue) -> { onFilterChange(); });
+
+
+        tblMedia.getSelectionModel().selectedItemProperty().addListener(
+                new ChangeListener<Media>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Media> observableValue, Media oldValue, Media newValue) {
+                        if(newValue!=null) updateButtonBar(newValue);
+                    }
+                }
+        );
     }
-
-    private void onFilterChange() {
-        // Empty filter
-        if (tfFilter.getText().length() == 0) {
-            tblMedia.setItems(cart.getItemsOrdered());
-            return;
-        }
-
-        var button = (RadioButton)filterCategory.getSelectedToggle();
-        assert(button != null);
-        switch(button.getText()) {
-            default:
-            case "By Title":
-                tblMedia.setItems(cart.filterTitle(tfFilter.getText()));
-                break;
-            case "By ID":
-                tblMedia.setItems(cart.filterId(tfFilter.getText()));
-                break;
-        }
-    }
-
     @FXML
-     void btnRemovePressed(ActionEvent event) {
-        cart.removeMedia(tblMedia.getSelectionModel().getSelectedItem());
-        if (cart.getItemsOrdered().size() < 1) {
-            btnPlay.setVisible(false);
-            btnRemove.setVisible(false);
-        }
+    void btnRemovePressed(ActionEvent e) {
+        Media media = tblMedia.getSelectionModel().getSelectedItem();
+        cart.removeMedia(media);
+        totalCost.setText(String.format("%.2f", cart.totalCost()) + " $");
     }
+    void updateButtonBar(Media media) {
+        btnRemove.setVisible(true);
+        if(media instanceof Playable) {
+            btnPlay.setVisible(true);
+        } else btnPlay.setVisible(false);
+    }
+
+//    private void onFilterChange() {
+//        // Empty filter
+//        if (tfFilter.getText().length() == 0) {
+//            tblMedia.setItems(cart.getItemsOrdered());
+//            return;
+//        }
+//
+//        var button = (RadioButton)filterCategory.getSelectedToggle();
+//        assert(button != null);
+//        switch(button.getText()) {
+//            default:
+//            case "By Title":
+//                tblMedia.setItems(cart.filterTitle(tfFilter.getText()));
+//                break;
+//            case "By ID":
+//                tblMedia.setItems(cart.filterId(tfFilter.getText()));
+//                break;
+//        }
+//    }
+
+
     @FXML
     void btnPlayPressed(ActionEvent e) {
         Media media = tblMedia.getSelectionModel().getSelectedItem();

@@ -18,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" >
     <top>
         <VBox prefWidth="100.0" BorderPane.alignment="CENTER">
             <children>
@@ -74,7 +74,7 @@
                 <TableView fx:id="tblMedia">
                     <columns>
                         <TableColumn fx:id="colMediaTitle" prefWidth="75.0" text="Title" />
-                        <TableColumn fx:id="colMediacategory" prefWidth="75.0" text="Category" />
+                        <TableColumn fx:id="colMediaCategory" prefWidth="75.0" text="Category" />
                         <TableColumn fx:id="colMediaCost" prefWidth="75.0" text="Cost" />
                     </columns>
                     <columnResizePolicy>
