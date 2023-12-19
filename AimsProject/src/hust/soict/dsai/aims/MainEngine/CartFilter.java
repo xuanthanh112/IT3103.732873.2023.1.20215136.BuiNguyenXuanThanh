@@ -29,7 +29,9 @@ public class CartFilter extends FirstMenu {
                 int id = -1;
                 try {
                     id = scanner.nextInt();
-                } catch (InputMismatchException e) {}
+                } catch (InputMismatchException e) {
+                    throw new RuntimeException(e);
+                }
                 scanner.nextLine(); // Consume newline char
                 item = cart.searchById(id);
                 break;

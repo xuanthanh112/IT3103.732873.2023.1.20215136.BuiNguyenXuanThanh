@@ -8,5 +8,10 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="lib" level="project" />
+     requires javafx.controls;
+        requires javafx.fxml;
+
+        opens hust.soict.dsai.aims.screen to javafx.fxml, javafx.graphics;
+
   </component>
 </module>

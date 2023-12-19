@@ -39,7 +39,7 @@
                         </Menu>
                     </menus>
                 </MenuBar>
-                <Label text="CART" textFill="AQUA">
+                <Label text="Bui Nguyer Xuan Thanh- 20215136" textFill="AQUA">
                     <font>
                         <Font size="50.0" />
                     </font>
@@ -62,13 +62,15 @@
                     </padding>
                     <children>
                         <Label text="Filter" />
-                        <TextField fx:id="tfFilter" />
-                        <RadioButton fx:id="radioBtnFilterId" mnemonicParsing="false" selected="true" text="By ID">
+                        <TextField fx:id="tfFilter" onAction="#onFilterChange" />
+                        <RadioButton fx:id="radioBtnFilterId" mnemonicParsing="false" selected="true" text="By ID" onAction="#onFilterChange">
                             <toggleGroup>
                                 <ToggleGroup fx:id="filterCategory" />
                             </toggleGroup>
                         </RadioButton>
-                        <RadioButton fx:id="radioBtnFilterTitle" mnemonicParsing="false" text="By Title" toggleGroup="$filterCategory" />
+                        <RadioButton fx:id="radioBtnFilterTitle" mnemonicParsing="false" text="By Title" toggleGroup="$filterCategory" onAction="#onFilterChange" />
+                        <RadioButton fx:id="radioBtnFilterCost" mnemonicParsing="false" text="By Cost" toggleGroup="$filterCategory" onAction="#onFilterChange" />
+
                     </children>
                 </HBox>
                 <TableView fx:id="tblMedia">

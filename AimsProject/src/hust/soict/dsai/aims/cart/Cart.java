@@ -13,6 +13,18 @@ public class Cart {
     public ObservableList<Media> getItemsOrdered() {
         return itemsOrdered;
     }
+    public ObservableList<Media> filterTitle(String title) {
+        return itemsOrdered.filtered(media -> media.getTitle().toLowerCase().contains(title.toLowerCase()));
+    }
+
+    public ObservableList<Media> filterCost(String cost) {
+        return itemsOrdered.filtered(media -> Float.toString(media.getCost()).toLowerCase().contains(cost.toLowerCase()));
+    }
+
+
+    public ObservableList<Media> filterId(String id) {
+        return itemsOrdered.filtered(media -> Integer.toString(media.getId()).contains(id));
+    }
     public void addMedia(Media media) {
         if (itemsOrdered.size() == MAX_NUMBERS_ORDERED) {
             System.out.println("The cart is almost full");
@@ -72,16 +84,16 @@ public class Cart {
             if (item.matchTitle(title)) return item;
         return null;
     }
-    public FilteredList<Media> filterId(String id) {
-        var filtered = new FilteredList<>(itemsOrdered);
-        filtered.setPredicate(media -> false);
-        return filtered;
-    }
-    public FilteredList<Media> filterTitle(String titlePart) {
-        var filtered = new FilteredList<>(itemsOrdered);
-        filtered.setPredicate(media -> media.getTitle().contains(titlePart));
-        return filtered;
-    }
+//    public FilteredList<Media> filterId(String id) {
+//        var filtered = new FilteredList<>(itemsOrdered);
+//        filtered.setPredicate(media -> false);
+//        return filtered;
+//    }
+//    public FilteredList<Media> filterTitle(String titlePart) {
+//        var filtered = new FilteredList<>(itemsOrdered);
+//        filtered.setPredicate(media -> media.getTitle().contains(titlePart));
+//        return filtered;
+//    }
 
     public void placeOrder() {
         itemsOrdered.clear();

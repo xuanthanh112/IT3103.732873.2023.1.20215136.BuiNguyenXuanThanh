@@ -1,5 +1,6 @@
 package hust.soict.dsai.aims.media;
 
+import hust.soict.dsai.aims.exception.PlayerException;
 import hust.soict.dsai.aims.media.Comparator.ByCostTitle;
 import hust.soict.dsai.aims.media.Comparator.ByTitleCost;
 
@@ -40,9 +41,12 @@ public abstract class Media {
     //
     @Override
     public boolean equals(Object obj) {
-        Media media = (Media)obj;
-        return Objects.equals(title, media.title);
+        if (obj instanceof Media) {
+            return Objects.equals(this.title, ((Media) obj).title);
+        }
+        return false;
     }
+
 
     public boolean isPlayable() {
         return this instanceof Playable;
@@ -53,7 +57,11 @@ public abstract class Media {
             return;
         }
         var playable = (Playable)this;
-        playable.play();
+        try {
+            playable.play();
+        } catch (PlayerException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public boolean matchId(int id) { return this.id == id; }

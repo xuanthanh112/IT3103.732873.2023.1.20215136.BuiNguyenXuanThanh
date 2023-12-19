@@ -90,7 +90,7 @@ public class StoreScreen extends JFrame {
         JPanel header = new JPanel();
         header.setLayout(new BoxLayout(header, BoxLayout.X_AXIS));
 
-        JLabel title = new JLabel("AIMS");
+        JLabel title = new JLabel("Bui Nguyer Xuan Thanh- 20215136");
         title.setFont(new Font(title.getFont().getName(), Font.PLAIN, 50));
         title.setForeground(Color.CYAN);
 

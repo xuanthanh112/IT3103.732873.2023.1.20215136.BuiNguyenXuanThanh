@@ -64,25 +64,30 @@ public class CartScreenController {
         } else btnPlay.setVisible(false);
     }
 
-//    private void onFilterChange() {
-//        // Empty filter
-//        if (tfFilter.getText().length() == 0) {
-//            tblMedia.setItems(cart.getItemsOrdered());
-//            return;
-//        }
-//
-//        var button = (RadioButton)filterCategory.getSelectedToggle();
-//        assert(button != null);
-//        switch(button.getText()) {
-//            default:
-//            case "By Title":
-//                tblMedia.setItems(cart.filterTitle(tfFilter.getText()));
-//                break;
-//            case "By ID":
-//                tblMedia.setItems(cart.filterId(tfFilter.getText()));
-//                break;
-//        }
-//    }
+    @FXML
+    void onFilterChange(ActionEvent event) {
+        // Empty filter
+        if (tfFilter.getText().length() == 0) {
+            tblMedia.setItems(cart.getItemsOrdered());
+            return;
+        }
+
+        var button = (RadioButton) filterCategory.getSelectedToggle();
+        assert (button != null);
+        String filterText = tfFilter.getText().toLowerCase().trim();
+
+        switch (button.getText()) {
+            case "By Title":
+                tblMedia.setItems(cart.filterTitle(filterText));
+                break;
+            case "By ID":
+                tblMedia.setItems(cart.filterId(filterText));
+                break;
+            case "By Cost":
+                tblMedia.setItems(cart.filterCost(filterText));
+                break;
+        }
+    }
 
 
     @FXML

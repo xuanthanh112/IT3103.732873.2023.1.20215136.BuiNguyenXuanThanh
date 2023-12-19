@@ -26,6 +26,7 @@ public class CartScreen extends JFrame {
         this.setTitle("Cart");
         this.setVisible(true);
         this.setSize(1024, 768);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Để khi đóng cửa sổ, chương trình sẽ kết thúc
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
